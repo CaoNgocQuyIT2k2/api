@@ -67,20 +67,7 @@
       <div class="tab-content">
         <!--Danh sách sản phẩm -->
         <div role="tabpanel" class="tab-pane in active" id="DanhSachSP">
-          <div class="row ">
-            <div class="col-md-4">
-              <!-- <label for="sortSelect">Sắp xếp theo giá:</label> -->
-              <select
-                id="sortSelect"
-                class="form-control"
-                style="width: 46%"
-                onchange="sortProducts()"
-              >
-                <option value="">Sắp xếp theo giá</option>
-                <option value="asc">Tăng dần</option>
-                <option value="desc">Giảm dần</option>
-              </select>
-            </div>
+          <div class="row">
 
             <div class="col-md-4">
               <!-- BEGIN TÌM KIẾM -->
@@ -110,17 +97,19 @@
           </div>
           <div class="clear"></div>
           <div class="clear-fix"></div>
-          <div class="tblSanPham" id="tblSanPham">
+          <div class="" id="">
             <!-- BEGIN TABLE SẢN PHẨM -->
+            <!-- Đoạn mã HTML trên trang web -->
             <table class="table table-bordered">
               <thead>
+                <th>STT</th>
                 <th>Tên sản phẩm</th>
                 <th>Giá</th>
                 <th>Ảnh sản phẩm</th>
                 <th>Loại sản phẩm</th>
                 <th>Số lượng</th>
               </thead>
-              <tbody id="tblDanhSachSP"></tbody>
+              <tbody id="tblGioHang"></tbody>
             </table>
             <!-- END TABLE SẢN PHẨM -->
           </div>
@@ -128,9 +117,9 @@
         </div>
         <!-- Kết thúc danh sách sản phẩm -->
         <div class="cart-summary float_right">
-            <p>Total Quantity: <span id="total-quantity">0</span></p>
-            <p>Total Price: <span id="total-price">$0</span></p>
-          </div>
+          <p>Total Quantity: <span id="total-quantity">0</span></p>
+          <p>Total Price: <span id="total-price">$0</span></p>
+        </div>
         <div class="clear"></div>
       </div>
 
@@ -277,8 +266,8 @@
         text-decoration: none;
       }
 
-       /* CSS để áp dụng lớp float-right cho dropdown select */
-       .float_right {
+      /* CSS để áp dụng lớp float-right cho dropdown select */
+      .float_right {
         margin-bottom: 20px;
         float: right;
       }
@@ -298,6 +287,7 @@
         }
       }
     </style>
+
     <script
       src="https://code.jquery.com/jquery-3.3.1.min.js"
       integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -317,8 +307,8 @@
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/series-label.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="./js/cart_controller.js"></script>
-    <script src="./js/index.js"></script>
-    <script src="./js/cart_index.js"></script>
+    <script type="module" src="./js/cart_index.js"></script>
+    <script type="module" src="./js/index.js"></script>
+
   </body>
 </html>
