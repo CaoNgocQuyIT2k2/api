@@ -49,4 +49,5 @@ export function renderItemList(productList) {
   }
 }
 
-
+// Sử dụng hàm renderItemList và truyền vào productList
+renderItemList(productList);

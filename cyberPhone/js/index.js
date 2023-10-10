@@ -1,3 +1,9 @@
+// Khi trang được tải lại, hiển thị spinner
+document.addEventListener('DOMContentLoaded', () => {
+  showSpinner();
+  renderProductionList(); // Gọi hàm để tải danh sách sản phẩm lại sau khi trang được tải lại
+});
+
 // Button shop
 function scrollToProducts() {
   // Lấy phần tử "products" bằng cách sử dụng class
@@ -51,6 +57,7 @@ function renderProductionList(productArr) {
     });
   });
 }
+
 
 
 //------------------------------Lọc sản phẩm--------------------
@@ -147,7 +154,6 @@ var dataJson = localStorage.getItem(productList_localStorage);
 
 // Export biến productList
 export default productList;
-console.log("🚀 ~ productList:", productList)
 window.productList = productList;
 
 
@@ -227,9 +233,7 @@ function addToCart(productElement) {
     cart.push(selectedProduct);
   }
 
-  // // Cập nhật số lượng sản phẩm trong thẻ <span id="cart-count">
-  // const cartCountElement = document.getElementById("cart-count");
-  // cartCountElement.textContent = calculateTotalQuantityInCart();
+
 
   // Gọi hàm để thêm sản phẩm vào danh sách sản phẩm
   addToProductList(selectedProduct);
