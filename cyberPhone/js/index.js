@@ -1,8 +1,23 @@
 // Khi trang được tải lại, hiển thị spinner
-document.addEventListener('DOMContentLoaded', () => {
-  showSpinner();
-  renderProductionList(); // Gọi hàm để tải danh sách sản phẩm lại sau khi trang được tải lại
+document.addEventListener("DOMContentLoaded", () => {
+  fetchProductList().then(() => {
+    hideSpinner(); // Ẩn spinner sau khi danh sách sản phẩm đã được tải xong
+  });
 });
+
+
+// Hiển thị spinner và làm mờ nội dung
+export function showSpinner() {
+  var overlay = document.getElementById("overlay");
+  overlay.style.display = "block";
+}
+
+// Ẩn spinner và khôi phục nội dung bình thường
+export function hideSpinner() {
+  var overlay = document.getElementById("overlay");
+  overlay.style.display = "none";
+}
+
 
 // Button shop
 function scrollToProducts() {
@@ -18,11 +33,11 @@ window.scrollToProducts = scrollToProducts
 window.filterProducts = filterProducts
 var dssp = []; // Định nghĩa biến dssp ở ngoài phạm vi của hàm
 
-function renderProductionList(productArr) {
+function renderProductionList(dssp) {
   var productContainer = document.getElementById("product-container");
   productContainer.innerHTML = ""; // Xóa nội dung cũ trong container trước khi thêm dữ liệu mới
 
-  productArr.forEach((product) => {
+  dssp.forEach((product) => {
     var productDiv = document.createElement("div");
     productDiv.classList.add("item");
     productDiv.innerHTML = `
@@ -59,10 +74,12 @@ function renderProductionList(productArr) {
 }
 
 
-
 //------------------------------Lọc sản phẩm--------------------
 // Hàm lọc danh sách sản phẩm theo loại sản phẩm
 function filterProducts() {
+  // Hiển thị spinner
+  showSpinner();
+
   var filterSelect = document.getElementById("filterSelect");
 
   // Kiểm tra xem filterSelect có tồn tại không
@@ -84,25 +101,36 @@ function filterProducts() {
 
     // Gọi hàm để hiển thị danh sách sản phẩm đã được lọc
     renderProductionList(filteredProducts);
+
+    // Ẩn spinner sau khi hoàn thành
+    hideSpinner();
   }
 }
 
 
 // Gọi api lấy danh sách sản phẩm đang có từ server
-axios({
-  url: "https://6520dbe6906e276284c4beec.mockapi.io/Products",
-  method: "GET",
-})
-  .then((res) => {
-    // Api trả về thành công
-    dssp = res.data; // Gán danh sách sản phẩm cho biến dssp
-
-    // Gọi hàm filterProducts để hiển thị danh sách sản phẩm ban đầu
-    filterProducts();
+function fetchProductList() {
+  return axios({
+    url: "https://6520dbe6906e276284c4beec.mockapi.io/Products",
+    method: "GET",
   })
-  .catch((err) => {
-    console.log(err);
-  }); 
+    .then((res) => {
+      // Api trả về thành công
+      dssp = res.data; // Gán danh sách sản phẩm cho biến dssp
+      
+      // Gọi hàm filterProducts để hiển thị danh sách sản phẩm ban đầu
+      filterProducts();
+
+      // Xử lý dữ liệu và trả về dữ liệu cần thiết dưới dạng promise
+      return Promise.resolve(res.data);
+    })
+    .catch((err) => {
+      console.log(err);
+      throw err; // Rethrow lỗi để xử lý ở nơi khác nếu cần
+    }); 
+}
+
+fetchProductList()
 //------------------------Giỏ hàng--------------------------
 
 // Khai báo mảng để lưu trữ các sản phẩm trong giỏ hàng

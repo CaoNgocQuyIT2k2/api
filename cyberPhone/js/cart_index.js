@@ -1,3 +1,4 @@
+
 // Biến đếm cho ID của bảng
 let tableIdCounter = 0;
 window.tableIdCounter = tableIdCounter;
@@ -6,8 +7,11 @@ export { tableIdCounter };
 
 
 import productList from './index.js';
+import { showSpinner } from "./index.js";
+import { hideSpinner } from "./index.js";
 
-
+// Bây giờ bạn có thể sử dụng productList trong cart_index.js
+console.log(productList);
 export function updateCartCount() {
   const totalQuantity = productList.reduce((total, item) => total + item.quality, 0);
   const cartCountElement = document.getElementById("cart-count");
@@ -17,7 +21,10 @@ export function updateCartCount() {
 window.updateCartCount = updateCartCount;
 
 
-export function renderItemList(productList) {
+export function renderItemList() {
+  // Hiển thị spinner và làm mờ nội dung
+  showSpinner();
+
   var contentHTML = "";
   for (var i = 0; i < productList.length; i++) {
     var item = productList[i];
@@ -39,7 +46,6 @@ export function renderItemList(productList) {
         </td>
     </tr>`;
     contentHTML += trString;
-
   }
 
   // Kiểm tra xem phần tử "tblGioHang" có tồn tại hay không trước khi thay đổi nội dung
@@ -47,7 +53,10 @@ export function renderItemList(productList) {
   if (tblGioHang) {
     tblGioHang.innerHTML = contentHTML;
   }
+
+  // Ẩn spinner và khôi phục nội dung bình thường
+  hideSpinner();
 }
 
 // Sử dụng hàm renderItemList và truyền vào productList
-renderItemList(productList);
+renderItemList();
