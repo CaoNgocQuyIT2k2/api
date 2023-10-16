@@ -1,4 +1,4 @@
-function kiemTraRong(value,idErr) {
+export function kiemTraRong(value,idErr) {
     if(value !="") {
         //ko lỗi
         document.getElementById(idErr).innerHTML = "";
@@ -9,5 +9,5 @@ function kiemTraRong(value,idErr) {
         return false;
     }
 }
-
+window.kiemTraRong = kiemTraRong;
 

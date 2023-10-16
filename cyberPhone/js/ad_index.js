@@ -1,3 +1,5 @@
+import { kiemTraRong } from "./ad_validate.js";
+
 var dssp = [];
 
 // Khi trang được tải lại, hiển thị spinner
@@ -105,20 +107,7 @@ axios({
     console.log(err);
   });
 
-function fetchFoodList() {
-  axios({
-    url: "https://6520dbe6906e276284c4beec.mockapi.io/Products",
-    method: "GET",
-  })
-    .then((res) => {
-      renderProductionList(res.data);
-    })
-    .catch((err) => {
-      console.log(err);
-    });
-}
 
-fetchFoodList();
 
 
 
@@ -142,6 +131,7 @@ async function deleteProduct(id) {
     alert("Xóa sản phẩm thất bại: " + error.message);
   }
 }
+window.deleteProduct = deleteProduct;
 
 async function addProduct() {
   // Hiển thị spinner và làm mờ nội dung
@@ -193,6 +183,7 @@ async function addProduct() {
   }
   closeModal();
 }
+window.addProduct = addProduct;
 
 console.log("🚀 ~ dssp:", dssp);
 
@@ -219,6 +210,7 @@ function editProduct(id) {
       hideSpinner();
     });
 }
+window.editProduct = editProduct;
 
 async function updateProduct(id) {
   // Hiển thị spinner và làm mờ nội dung
@@ -245,6 +237,7 @@ async function updateProduct(id) {
   }
   closeModal();
 }
+window.updateProduct = updateProduct;
 
 
 async function fetchFoodList() {
@@ -262,7 +255,7 @@ async function fetchFoodList() {
     hideSpinner(); // Ẩn spinner nếu có lỗi xảy ra
   }
 }
-
+fetchFoodList()
 //---------------------Tìm kiếm----------------------------------
 function searchButton() {
    // Hiển thị spinner và làm mờ nội dung
@@ -273,6 +266,7 @@ function searchButton() {
   // Sau khi tìm kiếm xong, ẩn spinner và khôi phục nội dung
   hideSpinner();
 }
+window.searchButton = searchButton;
 
 function searchProductsByKeyword(keyword) {
   // Tạo một mảng mới để lưu trữ các sản phẩm phù hợp với từ khóa
@@ -334,10 +328,11 @@ function sortProducts() {
       return priceB - priceA;
     });
   }
-  
   // Gọi hàm để hiển thị danh sách sản phẩm đã được sắp xếp
   renderProductionList(sortedProducts);
 
   // Sau khi sắp xếp xong, ẩn spinner và khôi phục nội dung
   hideSpinner();
 }
+window.sortProducts = sortProducts;
+
