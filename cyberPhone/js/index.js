@@ -5,7 +5,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
-
 // Hiển thị spinner và làm mờ nội dung
 export function showSpinner() {
   var overlay = document.getElementById("overlay");
@@ -18,7 +17,6 @@ export function hideSpinner() {
   overlay.style.display = "none";
 }
 
-
 // Button shop
 function scrollToProducts() {
   // Lấy phần tử "products" bằng cách sử dụng class
@@ -29,8 +27,8 @@ function scrollToProducts() {
     productsElement.scrollIntoView({ behavior: "smooth" });
   }
 }
-window.scrollToProducts = scrollToProducts
-window.filterProducts = filterProducts
+window.scrollToProducts = scrollToProducts;
+window.filterProducts = filterProducts;
 var dssp = []; // Định nghĩa biến dssp ở ngoài phạm vi của hàm
 
 function renderProductionList(dssp) {
@@ -57,7 +55,7 @@ function renderProductionList(dssp) {
           </div>
           <div class="price">
             <span>${product.price}$</span>
-            <button class="add-to-cart">Add to Cart</button>
+            <button class="add-to-cart">Add to cart</button>
           </div>
         </div>
       </div>
@@ -72,7 +70,6 @@ function renderProductionList(dssp) {
     });
   });
 }
-
 
 //------------------------------Lọc sản phẩm--------------------
 // Hàm lọc danh sách sản phẩm theo loại sản phẩm
@@ -107,7 +104,6 @@ function filterProducts() {
   }
 }
 
-
 // Gọi api lấy danh sách sản phẩm đang có từ server
 function fetchProductList() {
   return axios({
@@ -117,7 +113,7 @@ function fetchProductList() {
     .then((res) => {
       // Api trả về thành công
       dssp = res.data; // Gán danh sách sản phẩm cho biến dssp
-      
+
       // Gọi hàm filterProducts để hiển thị danh sách sản phẩm ban đầu
       filterProducts();
 
@@ -127,15 +123,14 @@ function fetchProductList() {
     .catch((err) => {
       console.log(err);
       throw err; // Rethrow lỗi để xử lý ở nơi khác nếu cần
-    }); 
+    });
 }
 
-fetchProductList()
+fetchProductList();
 //------------------------Giỏ hàng--------------------------
 
 // Khai báo mảng để lưu trữ các sản phẩm trong giỏ hàng
 const cart = [];
-
 
 // Hàm để lấy thông tin sản phẩm từ phần tử sản phẩm
 function getDataItem(productElement) {
@@ -160,110 +155,100 @@ function getDataItem(productElement) {
   };
 }
 
- let productList = [];
+let productList = [];
 
-let productList_localStorage = "productList_localStorage";
+export let productList_localStorage = "productList_localStorage";
 
-// Render lại data từ local storage khi user reload 
+// Render lại data từ local storage khi user reload
 var dataJson = localStorage.getItem(productList_localStorage);
 
-  //
-  import { tableIdCounter } from "./cart_index.js";
-  // Import và sử dụng hàm renderItemList
-  import { renderItemList } from "./cart_index.js";
-
-  // Sử dụng hàm renderItemList ở đây
-  if (dataJson != null) {
-    // Kiểm tra dữ liệu dưới local storage có tồn tại hay không trước khi render
-    productList = JSON.parse(dataJson); // Gán dữ liệu từ localStorage vào productList
-    // Export biến productList
-    // renderItemList(productList);
-  }
+if (dataJson != null) {
+  productList = JSON.parse(dataJson); // Gán dữ liệu từ localStorage vào productList
+}
 
 // Export biến productList
 export default productList;
 window.productList = productList;
-
 
 function calculateTotalQuality() {
   const totalQuality = productList.reduce((total, item) => total + item.quality, 0);
   return totalQuality;
 }
 
-// Gọi hàm để tính tổng quality
+ // Gọi hàm để tính tổng quality
 const totalQuality = calculateTotalQuality();
 
 // Hiển thị giá trị tổng quality trong thẻ cart-count
 const cartCountElement = document.getElementById("cart-count");
 cartCountElement.textContent = totalQuality;
 
-
-
 function calculateTotalQuantityInCart() {
   const totalQuantity = cart.reduce((total, item) => total + item.quality, 0);
-  console.log("🚀 ~ totalQuantity:", totalQuantity)
   return totalQuantity;
 }
 
-import { updateCartCount } from "./cart_index.js";
 
+import { updateCartCount } from "./cart_index.js";
 
 // Hàm để thêm sản phẩm vào mảng productList
 function addToProductList(product) {
-  // Kiểm tra xem sản phẩm đã có trong danh sách sản phẩm chưa
-  const existingProductIndex = productList.findIndex(
-    (item) => item.name === product.name
-  );
+  const existingProduct = productList.find((item) => item.name === product.name);
 
-  if (existingProductIndex !== -1) {
-    // Nếu sản phẩm đã tồn tại trong danh sách, tăng quality lên 1 đơn vị
-    productList[existingProductIndex].quality += 1;
+  if (existingProduct) {
+    // Nếu sản phẩm đã có trong productList, cập nhật quality
+    existingProduct.quality = cart.find((item) => item.name === product.name).quality;
   } else {
-    // Nếu sản phẩm chưa tồn tại trong danh sách, thêm vào với quality là 1
-    product.quality = 1;
+    // Nếu sản phẩm chưa có trong productList, thêm mới
     productList.push(product);
   }
 
-  // Log thông báo vào console
-  console.log("Sản phẩm đã được thêm vào danh sách sản phẩm:", product.name);
+  // Lưu sản phẩm xuống localStorage
+  saveProductListToLocalStorage();
 
-  // Log danh sách sản phẩm vào console
-  console.log("Danh sách sản phẩm:", productList);
-
-  // Convert array to json để lưu xuống local storage
-  var dataJson = JSON.stringify(productList); // Sửa thành productList
-  // Lưu json vào local storage
-  localStorage.setItem(productList_localStorage, dataJson);
-  // Lưu số lượng sản phẩm trong giỏ hàng vào local storage
-  const totalQuantityInCart = calculateTotalQuantityInCart();
-  localStorage.setItem("totalQuantityInCart", totalQuantityInCart);
-
+  console.log("Danh sách sản phẩm sau khi thêm/sửa: ", productList);
 }
 
-
+// Hàm để lưu productList xuống localStorage
+function saveProductListToLocalStorage() {
+  localStorage.setItem(productList_localStorage, JSON.stringify(productList));
+}
 
 // Hàm để thêm sản phẩm vào giỏ hàng
 function addToCart(productElement) {
-  // Lấy thông tin sản phẩm từ hàm getDataItem
-  const selectedProduct = getDataItem(productElement);
-  updateCartCount();
-  // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
-  const existingCartItem = cart.find(
-    (item) => item.name === selectedProduct.name
-  );
+  // Hiển thị spinner
+  showSpinner();
 
-  if (existingCartItem) {
-    // Nếu sản phẩm đã có trong giỏ hàng, tăng quality lên 1 đơn vị
-    existingCartItem.quality += 1;
-  } else {
-    // Nếu sản phẩm chưa có trong giỏ hàng, thêm sản phẩm vào giỏ hàng với quality là 1
-    selectedProduct.quality = 1;
-    cart.push(selectedProduct);
+  try {
+    // Lấy thông tin sản phẩm từ hàm getDataItem
+    const selectedProduct = getDataItem(productElement);
+
+    // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
+    const existingCartItem = cart.find((item) => item.name === selectedProduct.name);
+
+    if (existingCartItem) {
+      // Nếu sản phẩm đã có trong giỏ hàng, tăng quality lên 1 đơn vị
+      existingCartItem.quality += 1;
+    } else {
+      // Nếu sản phẩm chưa có trong giỏ hàng, thêm sản phẩm vào giỏ hàng với quality là 1
+      selectedProduct.quality = 1;
+      cart.push(selectedProduct);
+    }
+
+    // Thêm sản phẩm vào productList và cập nhật quality
+    addToProductList(selectedProduct);
+
+    // Cập nhật tổng số lượng sản phẩm trong giỏ hàng
+    updateCartCount();
+
+    hideSpinner(); // Ẩn spinner sau khi thêm sản phẩm thành công
+  } catch (error) {
+    // Xảy ra lỗi khi thêm, sau đó ẩn spinner và khôi phục nội dung
+    hideSpinner();
+    console.error("Thêm thất bại", error);
+    alert("Thêm sản phẩm thất bại: " + error.message);
   }
-
-
-
-  // Gọi hàm để thêm sản phẩm vào danh sách sản phẩm
-  addToProductList(selectedProduct);
 }
+
+
+
 

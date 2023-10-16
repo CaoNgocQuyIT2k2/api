@@ -21,3 +21,9 @@ function showDataForm(Products){
       document.getElementById("LoaiSP").value = Products.type;
       document.getElementById("soLuongSP").value = Products.quality;
 }
+
+// Hàm để đóng modal
+function closeModal() {
+    $("#myModal").modal("hide"); // Sử dụng jQuery để đóng modal
+  }
+  

@@ -105,6 +105,60 @@ body {
   display: none;
 }
 
+/* CSS cho lớp mờ */
+.overlay {
+  display: none;
+  /* Ẩn lớp mờ ban đầu */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.7);
+  /* Màu nền mờ với độ trong suốt */
+  z-index: 9999;
+  /* Đảm bảo lớp mờ hiển thị trên top */
+}
+
+/* CSS cho spinner */
+.lds-dual-ring {
+  display: inline-block;
+  width: 80px;
+  height: 80px;
+  position: absolute;
+  top: 50%;
+  /* Giữ taheo chiều dọc */
+  left: 50%;
+  /* Giữa theo chiều ngang */
+  transform: translate(-50%, -50%);
+  /* Đưa spinner vào giữa màn hình */
+}
+
+.lds-dual-ring:after {
+  content: " ";
+  display: block;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border-radius: 50%;
+  border: 6px solid #fff;
+  border-color: #fff transparent #fff transparent;
+  animation: lds-dual-ring 1.2s linear infinite;
+}
+
+/* Loại bỏ đường gạch chân dưới các thẻ a trong header khi hover */
+header a:hover {
+  text-decoration: none;
+}
+
+@keyframes lds-dual-ring {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}
 .form-control {
   width: 32%;
 }/*# sourceMappingURL=index.css.map */
