@@ -171,11 +171,14 @@ export default productList;
 window.productList = productList;
 
 function calculateTotalQuality() {
-  const totalQuality = productList.reduce((total, item) => total + item.quality, 0);
+  const totalQuality = productList.reduce(
+    (total, item) => total + item.quality,
+    0
+  );
   return totalQuality;
 }
 
- // Gọi hàm để tính tổng quality
+// Gọi hàm để tính tổng quality
 const totalQuality = calculateTotalQuality();
 
 // Hiển thị giá trị tổng quality trong thẻ cart-count
@@ -187,16 +190,19 @@ function calculateTotalQuantityInCart() {
   return totalQuantity;
 }
 
-
 import { updateCartCount } from "./cart_index.js";
 
 // Hàm để thêm sản phẩm vào mảng productList
 function addToProductList(product) {
-  const existingProduct = productList.find((item) => item.name === product.name);
+  const existingProduct = productList.find(
+    (item) => item.name === product.name
+  );
 
   if (existingProduct) {
     // Nếu sản phẩm đã có trong productList, cập nhật quality
-    existingProduct.quality = cart.find((item) => item.name === product.name).quality;
+    existingProduct.quality = cart.find(
+      (item) => item.name === product.name
+    ).quality;
   } else {
     // Nếu sản phẩm chưa có trong productList, thêm mới
     productList.push(product);
@@ -223,7 +229,9 @@ function addToCart(productElement) {
     const selectedProduct = getDataItem(productElement);
 
     // Kiểm tra xem sản phẩm đã có trong giỏ hàng chưa
-    const existingCartItem = cart.find((item) => item.name === selectedProduct.name);
+    const existingCartItem = cart.find(
+      (item) => item.name === selectedProduct.name
+    );
 
     if (existingCartItem) {
       // Nếu sản phẩm đã có trong giỏ hàng, tăng quality lên 1 đơn vị
@@ -248,7 +256,3 @@ function addToCart(productElement) {
     alert("Thêm sản phẩm thất bại: " + error.message);
   }
 }
-
-
-
-

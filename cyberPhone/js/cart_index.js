@@ -7,6 +7,7 @@ document.addEventListener("DOMContentLoaded", () => {
 import productList from "./index.js";
 import { showSpinner } from "./index.js";
 import { hideSpinner } from "./index.js";
+import { productList_localStorage } from "./index.js";
 
 // Trong tệp cart_index.js
 let tableIdCounter = 0;
@@ -36,13 +37,13 @@ export function renderItemList() {
   var contentHTML = "";
   var tblGioHang = document.getElementById("tblGioHang"); // Kiểm tra phần tử
   if (tblGioHang) {
-  for (var i = 0; i < productList.length; i++) {
-    var item = productList[i];
-    // Tạo ID duy nhất cho bảng
-    var tableId = `itemTable${i}`;
-    var tableRowId = `itemTableRow${i}`;
-    updateCartCount();
-    var trString = `<tr id="${tableRowId}">
+    for (var i = 0; i < productList.length; i++) {
+      var item = productList[i];
+      // Tạo ID duy nhất cho bảng
+      var tableId = `itemTable${i}`;
+      var tableRowId = `itemTableRow${i}`;
+      updateCartCount();
+      var trString = `<tr id="${tableRowId}">
         <td>${i + 1}</td>
         <td>${item.name}</td>
         <td>${item.price}</td>
@@ -54,25 +55,22 @@ export function renderItemList() {
         <button onclick="deleteItem('${tableRowId}')"  class="btn btn-danger pr-3">X</button>
         </td>
     </tr>`;
-    contentHTML += trString;
+      contentHTML += trString;
+    }
+    document.getElementById("tblGioHang").innerHTML = contentHTML;
+    // Ẩn spinner và khôi phục nội dung bình thường
+    hideSpinner();
+  } else {
+    console.error("Không tìm thấy phần tử có ID là 'tblGioHang'.");
   }
-  document.getElementById("tblGioHang").innerHTML = contentHTML;
-  // Ẩn spinner và khôi phục nội dung bình thường
-  hideSpinner();
-} else {
-  console.error("Không tìm thấy phần tử có ID là 'tblGioHang'.");
 }
-}
-
-
-
 
 // Sử dụng hàm renderItemList và truyền vào productList
 renderItemList();
 
 export function updateTotalPrice() {
   const totalPriceElement = document.getElementById("total-price"); // Kiểm tra phần tử
-  console.log("🚀 ~ totalPriceElement:", totalPriceElement)
+  console.log("🚀 ~ totalPriceElement:", totalPriceElement);
   if (totalPriceElement) {
     // Tìm thấy phần tử, cập nhật thuộc tính 'textContent'
     const totalPrice = productList.reduce((total, item) => {
@@ -87,7 +85,19 @@ export function updateTotalPrice() {
   }
 }
 
-
 // Gọi hàm updateTotalPrice để cập nhật tổng giá trị ban đầu
 updateTotalPrice();
+
+
+// Xóa giỏ hàng và cập nhật giao diện
+const ThanhToan = () => {
+  productList.length = 0; // Set mảng giỏ hàng về rỗng
+  updateCartCount(); // Cập nhật số lượng sản phẩm trong giỏ hàng
+  renderItemList(); // Cập nhật danh sách sản phẩm trong giỏ hàng
+  updateTotalPrice(); // Cập nhật tổng giá trị
+
+  // Xóa dữ liệu trong local storage 
+  localStorage.removeItem(productList_localStorage); // Xóa dữ liệu giỏ hàng trong local storage
+};
+window.ThanhToan = ThanhToan;
 
