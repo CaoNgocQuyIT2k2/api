@@ -4,7 +4,7 @@
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
-    <title>Quản lý sản phẩm</title>
+    <title>Giỏ hàng</title>
     <link
       rel="stylesheet"
       href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css"
@@ -30,7 +30,7 @@
       referrerpolicy="no-referrer"
     />
 
-    <link rel="stylesheet" href="./css/index.css" />
+    <link rel="stylesheet" href="../cyberPhone/css/index.css" />
   </head>
 
   <body>
@@ -39,13 +39,17 @@
         <div class="container">
           <span class="logo text-2xl font-medium">Cyber Phone</span>
           <div class="space-x-5">
-            <a class="active" href="./index.html">Home</a>
+            <a class="active" href="../cyberPhone/index.html">Home</a>
             <a href="./admin.html">Admin</a>
+            <a href="#"
+              ><i id="cart" class="fa fa-shopping-cart cart"></i>
+              <span id="cart-count" style="color: red">0</span></a
+            >
           </div>
         </div>
       </header>
 
-      <div class="display-4 my-4 mgtop">Quản lý sản phẩm</div>
+      <div class="display-4 my-4 mgtop">Giỏ hàng</div>
       <!-- Phan tab menu -->
       <ul class="nav nav-tabs" role="tablist">
         <li class="nav-item">
@@ -54,7 +58,7 @@
             href="#DanhSachSP"
             role="tab"
             data-toggle="tab"
-            >Danh sách sản phẩm</a
+            >Danh sách sản phẩm trong giỏ hàng</a
           >
         </li>
       </ul>
@@ -64,80 +68,39 @@
         <!--Danh sách sản phẩm -->
         <div role="tabpanel" class="tab-pane in active" id="DanhSachSP">
           <div class="row">
-            <div class="col-md-4">
-              <!-- BEGIN BUTTOM THÊM MỚI -->
-              <button
-                id="btnThemSP"
-                class="btn btn-success"
-                data-toggle="modal"
-                data-target="#myModal"
-              >
-                <i class="fa fa-plus mr-1"></i>
-                Thêm Mới
-              </button>
-              <!-- END BUTTON THÊM MỚI -->
-            </div>
-
-            <div class="col-md-4">
-              <!-- <label for="sortSelect">Sắp xếp theo giá:</label> -->
-              <select
-                id="sortSelect"
-                class="form-control"
-                style="width: 46%"
-                onchange="sortProducts()"
-              >
-                <option value="">Sắp xếp theo giá</option>
-                <option value="asc">Tăng dần</option>
-                <option value="desc">Giảm dần</option>
-              </select>
-            </div>
-
-            <div class="col-md-4">
-              <!-- BEGIN TÌM KIẾM -->
-              <div class="input-group mb-3">
-                <input
-                  type="text"
-                  class="form-control"
-                  placeholder="Nhập từ khóa"
-                  aria-label="Recipient's username"
-                  aria-describedby="basic-addon2"
-                  id="searchInput"
-                />
-                <div class="input-group-append">
-                  <button
-                    class="btn btn-outline-secondary"
-                    type="button"
-                    id="searchButton"
-                    onclick="searchButton()"
-                  >
-                    Tìm kiếm
-                  </button>
-                  <!-- Đặt id cho nút tìm kiếm -->
-                </div>
-              </div>
-              <!-- END TÌM KIẾM -->
-            </div>
+            <div class="col-md-4"></div>
           </div>
+          <div class="clear"></div>
           <div class="clear-fix"></div>
-          <div class="tblSanPham" id="tblSanPham">
+          <div class="" id="">
             <!-- BEGIN TABLE SẢN PHẨM -->
+            <!-- Đoạn mã HTML trên trang web -->
             <table class="table table-bordered">
               <thead>
-                <th>ID</th>
-                <th>Tên Sản Phẩm</th>
+                <th>STT</th>
+                <th>Tên sản phẩm</th>
                 <th>Giá</th>
-                <th>Hình Ảnh</th>
-                <th>Loại Sản Phẩm</th>
-                <th>Số Lượng</th>
-                <th>Action</th>
+                <th>Loại sản phẩm</th>
+                <th>Số lượng</th>
               </thead>
-              <tbody id="tblDanhSachSP"></tbody>
+              <tbody id="tblGioHang"></tbody>
             </table>
             <!-- END TABLE SẢN PHẨM -->
           </div>
           <br />
         </div>
         <!-- Kết thúc danh sách sản phẩm -->
+        <div class="cart-summary float_right">
+          <p>Total Price: <span id="total-price">$0</span></p>
+          <button
+            class="btn btn-success thanhToan"
+            id="checkout-button"
+            onclick="ThanhToan()"
+          >
+            Thanh toán
+          </button>
+        </div>
+        <div class="clear"></div>
       </div>
 
       <!--KetThuc Tabmenu-->
@@ -149,13 +112,8 @@
             <!-- Modal Header -->
             <div class="modal-header">
               <h4 class="modal-title">THÔNG TIN SẢN PHẨM</h4>
-              <button
-                type="button"
-                class="close"
-                data-dismiss="modal"
-                aria-label="Close"
-              >
-                <span aria-hidden="true">&times;</span>
+              <button type="button" class="close" data-dismiss="modal">
+                &times;
               </button>
             </div>
             <!-- Modal body -->
@@ -203,18 +161,10 @@
             </div>
             <!-- Modal footer -->
             <div class="modal-footer">
-              <button
-                class="btn btn-success"
-                type="button"
-                onclick="addProduct()"
-              >
+              <button class="btn btn-success" onclick="addProduct()">
                 Thêm
               </button>
-              <button
-                class="btn btn-success"
-                type="button"
-                onclick="updateProduct()"
-              >
+              <button class="btn btn-success" onclick="updateProduct()">
                 Cập nhật
               </button>
             </div>
@@ -261,7 +211,50 @@
       header a:hover {
         text-decoration: none;
       }
+
+      /* CSS để áp dụng lớp float-right cho dropdown select */
+      .float_right {
+        margin-bottom: 20px;
+        float: right;
+      }
+
+      .clear::after {
+        content: "";
+        display: table;
+        clear: both;
+      }
+
+      /* CSS cho phần tổng giá */
+      .cart-summary {
+        margin-top: 20px; /* Khoảng cách giữa phần tổng giá và các phần khác */
+        text-align: right; /* Hiển thị phần tổng giá ở phía bên phải */
+        font-size: 18px; /* Kích thước chữ cho phần tổng giá */
+      }
+
+      .cart-summary p {
+        margin: 0; /* Xóa khoảng cách lề của đoạn văn bản trong thẻ p */
+      }
+
+      #total-price {
+        color: #ff0000; /* Màu chữ cho tổng giá (màu đỏ) */
+        font-weight: bold; /* Chữ in đậm */
+      }
+
+      .thanhToan {
+        margin-top: 5px;
+        margin-left: 50px;
+      }
+
+      @keyframes lds-dual-ring {
+        0% {
+          transform: rotate(0deg);
+        }
+        100% {
+          transform: rotate(360deg);
+        }
+      }
     </style>
+
     <script
       src="https://code.jquery.com/jquery-3.3.1.min.js"
       integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8="
@@ -281,7 +274,9 @@
     <script src="https://code.highcharts.com/highcharts.js"></script>
     <script src="https://code.highcharts.com/modules/series-label.js"></script>
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
-    <script src="./js/ad_controller.js"></script>
-    <script src="./js/ad_index.js"></script>
+
+    <script type="module" src="../cyberPhone/js/cart_controller.js"></script>
+    <script type="module" src="../cyberPhone/js/cart_index.js"></script>
+    <script type="module" src="../cyberPhone/js/index.js"></script>
   </body>
 </html>

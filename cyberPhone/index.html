@@ -27,8 +27,8 @@
         <span class="logo text-2xl font-medium">Cyber Phone</span>
         <div class="space-x-5">
           <a class="active" href="#">Home</a>
-          <a href="./admin.html">Admin</a>
-          <a href="./cart.html"
+          <a href="../views/admin.html">Admin</a>
+          <a href="../views/cart.html"
             ><i class="fa fa-shopping-cart"></i>
             <span id="cart-count" style="color: red">0</span></a
           >
@@ -69,17 +69,19 @@
         </div>
 
         <!-- Thêm dropdown select vào trong HTML -->
-        <div class="filter float_right ">
-          <label for="filterSelect" class="mr-2">Lọc theo loại sản phẩm:  </label>
+        <div class="filter float_right">
+          <label for="filterSelect" class="mr-2"
+            >Lọc theo loại sản phẩm:
+          </label>
           <select
-          id="filterSelect"
-          class="form-control"
-          onchange="filterProducts()"
-        >
-          <option value="">Tất cả</option>
-          <option value="samsung">Samsung</option>
-          <option value="iphone">iPhone</option>
-        </select>
+            id="filterSelect"
+            class="form-control"
+            onchange="filterProducts()"
+          >
+            <option value="">Tất cả</option>
+            <option value="samsung">Samsung</option>
+            <option value="iphone">iPhone</option>
+          </select>
         </div>
         <div class="clear"></div>
 
@@ -147,9 +149,6 @@
         display: table;
         clear: both;
       }
-
-       
-      
     </style>
     <script
       src="https://code.jquery.com/jquery-3.3.1.min.js"
@@ -173,6 +172,5 @@
     <!-- my js  -->
     <script type="module" src="./js/cart_index.js"></script>
     <script type="module" src="./js/index.js"></script>
-    
   </body>
 </html>
